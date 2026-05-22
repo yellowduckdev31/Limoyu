@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy 3rd Anniversary Limoyu Dance</title>
+<style>
+@font-face{
+  font-family:'JawaPalsu';
+  src:url('JAWAPALSU.TTF') format('truetype');
+  font-weight:normal;
+  font-style:normal;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;font-family:'JawaPalsu', Poppins, Arial, sans-serif;color:#fff7d6;background:#050912;overflow-x:hidden}
+.page{min-height:100vh;padding:28px;position:relative;display:flex;align-items:center;justify-content:center;background-image:linear-gradient(rgba(0,0,0,.18),rgba(0,0,0,.78)),url("LogoLandscape.png");background-size:cover;background-position:center;overflow:hidden}
+@media(orientation:portrait){.page{background-image:linear-gradient(rgba(0,0,0,.14),rgba(0,0,0,.82)),url("LogoPotrait.png");background-position:center top}}
+.logo-intro{
+position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;
+background:radial-gradient(circle,rgba(15,18,28,.95),#000 70%);
+cursor:pointer;transition:opacity 1s ease,transform 1s ease,filter 1s ease;
+}
+.logo-intro.hide{opacity:0;transform:scale(1.12);filter:blur(12px);pointer-events:none}
+.logo-intro img{width:min(420px,78vw);animation:logoFloat 2.4s ease-in-out infinite alternate;filter:drop-shadow(0 0 28px rgba(255,216,107,.35))}
+.logo-intro .tap-text{position:absolute;bottom:12vh;color:#ffd86b;letter-spacing:2px;text-align:center;text-shadow:0 0 16px rgba(255,216,107,.65);animation:pulse 1.8s infinite}
+@keyframes logoFloat{from{transform:translateY(0) scale(1)}to{transform:translateY(-18px) scale(1.035)}}
+.cinematic{position:relative;z-index:6;text-align:center;margin-top:260px;animation:fadeUp 1.4s ease both}
+.cinematic .small{letter-spacing:3px;color:#5ee7ff;margin-bottom:12px}
+.cinematic h1{font-size:clamp(2rem,6vw,4.5rem);color:#ffd86b;text-shadow:0 0 24px rgba(255,216,107,.8);animation:glow 2s infinite alternate}
+.cinematic p{margin:14px auto 20px;max-width:650px;line-height:1.6}
+button,.share-btn{border:0;cursor:pointer;padding:14px 24px;border-radius:999px;font-weight:800;color:#10131f;background:linear-gradient(90deg,#ffd86b,#ff7b54,#5ee7ff);box-shadow:0 0 30px rgba(255,216,107,.45);text-decoration:none;display:inline-block;margin:6px}
+.open-btn{font-size:1.15rem;animation:pulse 1.7s infinite}
+.card{display:none;width:min(980px,94vw);margin-top:95px;padding:30px 24px;text-align:center;border:1px solid rgba(255,220,120,.38);border-radius:28px;background:rgba(5,9,18,.58);backdrop-filter:blur(8px);box-shadow:0 0 45px rgba(255,191,64,.25);z-index:4;position:relative}
+.card.show{display:block;animation:fadeUp 1.2s ease both}
+h1{font-size:clamp(2rem,6vw,4.4rem);color:#ffd86b;text-shadow:0 0 18px rgba(255,200,80,.75);animation:glow 2.2s infinite alternate}
+h2{font-size:clamp(1.15rem,3vw,1.9rem);color:#5ee7ff;margin:10px 0 16px;letter-spacing:2px}
+p{font-size:clamp(.95rem,2vw,1.15rem);line-height:1.65;max-width:760px;margin:0 auto 14px}
+.quote{margin:16px auto;padding:14px 18px;max-width:720px;border-left:4px solid #ffd86b;border-right:4px solid #5ee7ff;border-radius:18px;background:rgba(255,255,255,.08);font-style:italic;color:#fff0b8}
+.badge{display:inline-block;margin:8px 0 16px;padding:11px 20px;border-radius:999px;color:#10131f;font-weight:800;background:linear-gradient(90deg,#ffd86b,#ff7b54,#5ee7ff)}
+.gallery-title{margin:20px 0 12px;color:#ffd86b;font-size:1.35rem}
+.slideshow{width:100%;max-width:760px;height:330px;margin:0 auto 14px;position:relative;border-radius:22px;overflow:hidden;border:1px solid rgba(255,255,255,.25);box-shadow:0 0 25px rgba(94,231,255,.2)}
+.slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1s ease;cursor:pointer}
+.slide.active{opacity:1}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-top:10px}
+.gallery img{width:100%;height:130px;object-fit:cover;border-radius:18px;border:1px solid rgba(255,255,255,.25);box-shadow:0 0 18px rgba(94,231,255,.18);transition:.35s;cursor:pointer}
+.gallery img:hover{transform:scale(1.04);box-shadow:0 0 28px rgba(255,216,107,.35)}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:99;align-items:center;justify-content:center;padding:20px}
+.lightbox.show{display:flex}
+.lightbox img{max-width:94vw;max-height:86vh;border-radius:20px;box-shadow:0 0 40px rgba(255,216,107,.35)}
+.close{position:absolute;top:18px;right:24px;color:white;font-size:42px;cursor:pointer}
+.flower{position:fixed;top:-40px;z-index:3;font-size:24px;animation:flowerFall linear forwards;pointer-events:none}
+.dancer{position:absolute;z-index:2;font-size:clamp(54px,9vw,120px);animation:dancerMove 4.5s ease-in-out infinite alternate;pointer-events:none;opacity:.6}
+.dancer.left{left:4vw;bottom:12vh}.dancer.right{right:4vw;bottom:15vh;animation-delay:1s;transform:scaleX(-1)}
+.confetti{position:fixed;top:-20px;width:10px;height:16px;opacity:.95;z-index:10;animation:confettiFall 3.2s linear forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes glow{from{text-shadow:0 0 12px rgba(255,200,80,.55)}to{text-shadow:0 0 30px rgba(255,200,80,.95),0 0 48px rgba(94,231,255,.35)}}
+@keyframes pulse{50%{transform:scale(1.06)}}
+@keyframes dancerMove{from{translate:0 0;rotate:-4deg}to{translate:0 -24px;rotate:5deg}}
+@keyframes confettiFall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+@keyframes flowerFall{to{transform:translateY(110vh) rotate(360deg);opacity:0}}
+.girls-message{
+  margin:22px auto 6px;
+  padding:18px;
+  max-width:820px;
+  border-radius:24px;
+  background:linear-gradient(135deg,rgba(94,231,255,.14),rgba(255,216,107,.12),rgba(255,123,84,.10));
+  border:1px solid rgba(94,231,255,.38);
+  box-shadow:0 0 28px rgba(94,231,255,.16);
+}
+.girls-message h3{color:#5ee7ff;margin-bottom:10px;font-size:1.35rem;text-shadow:0 0 14px rgba(94,231,255,.45)}
+.girls-message p{color:#fff4c8;font-size:clamp(1rem,2.2vw,1.25rem)}
+.mama-message{
+  margin:24px auto 6px;
+  padding:20px 18px;
+  max-width:820px;
+  border-radius:24px;
+  background:linear-gradient(135deg,rgba(255,216,107,.14),rgba(94,231,255,.10),rgba(255,123,84,.12));
+  border:1px solid rgba(255,216,107,.38);
+  box-shadow:0 0 28px rgba(255,216,107,.16);
+}
+.mama-message h3{
+  color:#ffd86b;
+  margin-bottom:12px;
+  font-size:1.35rem;
+  text-shadow:0 0 14px rgba(255,216,107,.45);
+}
+.mama-message p{
+  max-width:760px;
+  color:#fff4c8;
+}
+@media(max-width:700px){.cinematic{margin-top:300px}.card{margin-top:185px;padding:22px 14px}.slideshow{height:220px}.gallery{grid-template-columns:repeat(2,1fr)}.gallery img{height:120px}.dancer{font-size:52px;opacity:.42}}
+</style>
+</head>
+<body>
+<audio id="backsound" src="Backsound.m4a" loop></audio>
+<main class="page">
+<div class="dancer left">💃</div><div class="dancer right">💃</div>
+
+<div class="logo-intro" id="logoIntro" onclick="hideLogoIntro()">
+  <img src="YellowDuckLogo.png" alt="YellowDuck Logo">
+  <div class="tap-text">Sentuh di mana saja untuk mulai</div>
+</div>
+
+<div class="cinematic" id="intro" style="display:none">
+  <div class="small">UNTUK KELUARGA BESAR</div>
+  <h1>Limoyu Dance</h1>
+  <p>Sebuah ucapan kecil untuk tiga tahun perjalanan, kebersamaan, dan cinta dalam melestarikan tari tradisional Jawa.</p>
+  <button class="open-btn" onclick="openGreeting()">Buka Ucapan</button>
+</div>
+
+<section class="card" id="card">
+<h1>Happy 3rd Anniversary</h1>
+<h2>Limoyu Dance</h2>
+<p>Selamat ulang tahun yang ke-3 untuk keluarga besar <b>Limoyu Dance</b>. Tiga tahun perjalanan penuh gerak, rasa, budaya, dan kebersamaan.</p>
+<div class="quote">“Melalui gerak tari, budaya tetap hidup; melalui kebersamaan, karya menjadi abadi.”</div>
+<p>Semoga Limoyu terus bersinar, menjaga keindahan tari tradisional Jawa, melahirkan karya yang membanggakan, dan semakin kompak dalam setiap langkah.</p>
+<div class="badge">3 Tahun Berkarya • Menari • Melestarikan Budaya</div>
+
+<h3 class="gallery-title">Galeri Kenangan Limoyu</h3>
+<div class="slideshow">
+  <img class="slide active" src="gallery1.jpeg" onclick="openLightbox(this.src)">
+  <img class="slide" src="gallery2.jpeg" onclick="openLightbox(this.src)">
+  <img class="slide" src="gallery3.jpeg" onclick="openLightbox(this.src)">
+  <img class="slide" src="gallery4.jpeg" onclick="openLightbox(this.src)">
+  <img class="slide" src="gallery5.jpeg" onclick="openLightbox(this.src)">
+  <img class="slide" src="gallery6.jpeg" onclick="openLightbox(this.src)">
+  <img class="slide" src="gallery7.jpeg" onclick="openLightbox(this.src)">
+  <img class="slide" src="gallery8.jpeg" onclick="openLightbox(this.src)">
+  <img class="slide" src="gallery9.jpeg" onclick="openLightbox(this.src)">
+  <img class="slide" src="gallery10.jpeg" onclick="openLightbox(this.src)">
+  <img class="slide" src="gallery11.jpeg" onclick="openLightbox(this.src)">
+  <img class="slide" src="gallery12.jpeg" onclick="openLightbox(this.src)">
+  <img class="slide" src="gallery13.jpeg" onclick="openLightbox(this.src)">
+  <img class="slide" src="gallery14.jpeg" onclick="openLightbox(this.src)">
+  <img class="slide" src="gallery15.jpeg" onclick="openLightbox(this.src)">
+</div>
+<div class="gallery">
+  <img src="gallery1.jpeg" onclick="openLightbox(this.src)">
+  <img src="gallery2.jpeg" onclick="openLightbox(this.src)">
+  <img src="gallery3.jpeg" onclick="openLightbox(this.src)">
+  <img src="gallery4.jpeg" onclick="openLightbox(this.src)">
+  <img src="gallery5.jpeg" onclick="openLightbox(this.src)">
+  <img src="gallery6.jpeg" onclick="openLightbox(this.src)">
+  <img src="gallery7.jpeg" onclick="openLightbox(this.src)">
+  <img src="gallery8.jpeg" onclick="openLightbox(this.src)">
+  <img src="gallery9.jpeg" onclick="openLightbox(this.src)">
+  <img src="gallery10.jpeg" onclick="openLightbox(this.src)">
+  <img src="gallery11.jpeg" onclick="openLightbox(this.src)">
+  <img src="gallery12.jpeg" onclick="openLightbox(this.src)">
+  <img src="gallery13.jpeg" onclick="openLightbox(this.src)">
+  <img src="gallery14.jpeg" onclick="openLightbox(this.src)">
+  <img src="gallery15.jpeg" onclick="openLightbox(this.src)">
+</div>
+
+
+<div class="mama-message">
+  <h3>Untuk Para Mama Hebat</h3>
+  <p>
+    Untuk para mama-mama hebat yang selalu hadir di setiap langkah anak-anaknya,
+    yang tak pernah lelah mendukung kegiatan, impian, dan hobi mereka.
+    Terima kasih telah menjadi sumber semangat, kasih sayang, dan doa yang tak pernah putus.
+    Lewat cinta dan keteladanan, kalian bukan hanya membesarkan generasi yang kuat,
+    tetapi juga ikut menjaga dan melestarikan budaya asli tanah air Indonesia agar tetap hidup
+    di hati anak-anak bangsa.
+  </p>
+  <p>
+    Terima Kasih Mama Aghata, Mama Kankin, Mama Kinan, Dan My Future Wife 🌻,
+    Kalian semua hebat ❤️.
+  </p>
+</div>
+
+<div class="girls-message">
+  <h3>Special Message</h3>
+  <p>Hi Zara, Kinan, Aghata, Kinanthi, Kanaya Fighting Girlsssss..🦋</p>
+</div>
+
+<div style="margin-top:18px">
+<button onclick="toggleMusic()" id="musicBtn">Pause Musik</button>
+<a class="share-btn" id="waShare" target="_blank" rel="noopener">Bagikan ke WhatsApp</a>
+</div>
+</section>
+</main>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="close">&times;</span>
+  <img id="lightboxImg">
+</div>
+
+<script>
+const shareText="Happy 3rd Anniversary Limoyu Dance! Yuk buka ucapan spesialnya:";
+document.getElementById("waShare").href="https://wa.me/?text="+encodeURIComponent(shareText+" "+window.location.href);
+
+let slideIndex=0, flowerTimer;
+function hideLogoIntro(){
+  const logo=document.getElementById("logoIntro");
+  const intro=document.getElementById("intro");
+  const audio=document.getElementById("backsound");
+  logo.classList.add("hide");
+  audio.volume=.65;
+  audio.play();
+  setTimeout(()=>{logo.style.display="none";intro.style.display="block";},900);
+}
+function openGreeting(){
+  document.getElementById("intro").style.display="none";
+  document.getElementById("card").classList.add("show");
+  startConfetti();
+  startFlowers();
+  startSlideshow();
+  const audio=document.getElementById("backsound");
+  audio.volume=.65;
+  audio.play();
+}
+function startSlideshow(){
+  setInterval(()=>{
+    const slides=document.querySelectorAll(".slide");
+    slides[slideIndex].classList.remove("active");
+    slideIndex=(slideIndex+1)%slides.length;
+    slides[slideIndex].classList.add("active");
+  },2800);
+}
+function openLightbox(src){
+  document.getElementById("lightboxImg").src=src;
+  document.getElementById("lightbox").classList.add("show");
+}
+function closeLightbox(){document.getElementById("lightbox").classList.remove("show")}
+function toggleMusic(){
+  const audio=document.getElementById("backsound"),btn=document.getElementById("musicBtn");
+  if(audio.paused){audio.play();btn.textContent="Pause Musik"}else{audio.pause();btn.textContent="Putar Musik"}
+}
+function startConfetti(){
+  const colors=["#ffd86b","#5ee7ff","#ff7b54","#ffffff"];
+  for(let i=0;i<90;i++){
+    const c=document.createElement("div"); c.className="confetti";
+    c.style.left=Math.random()*100+"vw"; c.style.background=colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDelay=Math.random()*1.2+"s"; document.body.appendChild(c);
+    setTimeout(()=>c.remove(),4500);
+  }
+}
+function startFlowers(){
+  const flowers=["🌸","🌺","🌼","🌷","💮"];
+  flowerTimer=setInterval(()=>{
+    const f=document.createElement("div"); f.className="flower";
+    f.textContent=flowers[Math.floor(Math.random()*flowers.length)];
+    f.style.left=Math.random()*100+"vw";
+    f.style.animationDuration=(5+Math.random()*5)+"s";
+    f.style.opacity=.55+Math.random()*.45;
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),10000);
+  },450);
+}
+</script>
+</body>
+</html>
